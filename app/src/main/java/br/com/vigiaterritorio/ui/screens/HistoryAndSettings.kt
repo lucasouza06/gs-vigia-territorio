@@ -36,6 +36,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.semantics.contentDescription
@@ -96,7 +97,7 @@ class HistoryViewModel(c: AppContainer) : ViewModel() {
 fun HistoryScreen(vm: HistoryViewModel = viewModel(factory = HistoryViewModel.Factory)) {
     val state by vm.state.collectAsStateWithLifecycle()
     Column {
-        TopAppBar(title = { Text("Histórico de decisões") })
+        TopAppBar(title = { ScreenTitle("Histórico de decisões") })
         when (val s = state) {
             HistoryUiState.Loading -> StateView(StateKind.LOADING, "Carregando histórico…")
             is HistoryUiState.Error -> StateView(StateKind.ERROR, s.message)
@@ -119,7 +120,13 @@ fun HistoryScreen(vm: HistoryViewModel = viewModel(factory = HistoryViewModel.Fa
 private fun DecisionItem(record: DecisionRecord) {
     val d = record.decision
     val a = record.alert
-    Card(Modifier.fillMaxWidth()) {
+    // Um único item por decisão, com descrição completa e única para o leitor de tela
+    // (achado do Accessibility Scanner: cards com textos repetidos).
+    val spoken = "Decisão ${d.action.label} sobre alerta ${a.level.label} em ${a.territoryName}, " +
+        "${d.decidedAt.formatDateTime()}, por ${d.responsible}." +
+        (if (d.note.isNotBlank()) " Observação: ${d.note}." else " Sem observação.") +
+        " Confiança do alerta ${a.confidencePercent} por cento."
+    Card(Modifier.fillMaxWidth().clearAndSetSemantics { contentDescription = spoken }) {
         Column(Modifier.padding(VigiaTheme.spacing.lg), verticalArrangement = Arrangement.spacedBy(VigiaTheme.spacing.xs)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(VigiaTheme.spacing.sm)) {
                 LevelBadge(a.level)
@@ -223,7 +230,7 @@ fun SettingsScreen(vm: SettingsViewModel = viewModel(factory = SettingsViewModel
     val prefs = state.preferences
 
     Column {
-        TopAppBar(title = { Text("Configurações") })
+        TopAppBar(title = { ScreenTitle("Configurações") })
         if (prefs == null) {
             StateView(StateKind.LOADING, "Carregando preferências…")
             return@Column

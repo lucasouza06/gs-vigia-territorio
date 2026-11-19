@@ -21,6 +21,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
@@ -177,7 +179,7 @@ fun DashboardScreen(
     }
 
     Column {
-        TopAppBar(title = { Text("Vigia Território") })
+        TopAppBar(title = { ScreenTitle("Vigia Território") })
         when (val s = state) {
             DashboardUiState.Loading -> StateView(StateKind.LOADING, "Carregando dados do território…")
             DashboardUiState.Empty -> StateView(StateKind.EMPTY, "Nenhum território cadastrado na base local.", actionLabel = "Recarregar", onAction = vm::retry)
@@ -281,6 +283,21 @@ private fun DashboardContent(
 
 private fun LazyGridScope.fullWidth(key: String, content: @Composable () -> Unit) {
     item(key = key, span = { GridItemSpan(maxLineSpan) }) { content() }
+}
+
+/**
+ * Título de tela na TopAppBar. A descrição para o leitor de tela começa com "Tela:" para não
+ * repetir o rótulo da aba inferior (achado do Accessibility Scanner: "Item descriptions").
+ */
+@Composable
+fun ScreenTitle(text: String) {
+    Text(
+        text,
+        modifier = Modifier.clearAndSetSemantics {
+            heading()
+            contentDescription = "Tela: $text"
+        },
+    )
 }
 
 @Composable

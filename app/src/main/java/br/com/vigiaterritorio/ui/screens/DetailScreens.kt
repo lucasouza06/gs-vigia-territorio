@@ -99,7 +99,7 @@ fun IndicatorScreen(onBack: () -> Unit, vm: IndicatorViewModel = viewModel(facto
     val state by vm.state.collectAsStateWithLifecycle()
     Column {
         TopAppBar(
-            title = { Text("Detalhe do indicador") },
+            title = { ScreenTitle("Detalhe do indicador") },
             navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Outlined.ArrowBack, "Voltar") } },
         )
         when (val s = state) {
@@ -234,7 +234,7 @@ fun AlertScreen(onBack: () -> Unit, vm: AlertViewModel = viewModel(factory = Ale
     Box(Modifier.fillMaxSize()) {
         Column {
             TopAppBar(
-                title = { Text("Detalhe do alerta") },
+                title = { ScreenTitle("Detalhe do alerta") },
                 navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Outlined.ArrowBack, "Voltar") } },
             )
             val evaluation = state.evaluation
