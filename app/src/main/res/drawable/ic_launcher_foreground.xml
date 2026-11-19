@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- pino de mapa -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M54,28C43.5,28 35,36.5 35,47C35,61 54,80 54,80C54,80 73,61 73,47C73,36.5 64.5,28 54,28Z" />
+    <!-- gota d'água -->
+    <path
+        android:fillColor="#FF0B5F7A"
+        android:pathData="M54,36C54,36 45,46.5 45,52C45,57 49,61 54,61C59,61 63,57 63,52C63,46.5 54,36 54,36Z" />
+</vector>

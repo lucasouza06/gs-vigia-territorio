@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Vigia Território</string>
+    <string name="channel_critical_name">Alertas críticos</string>
+    <string name="channel_critical_description">Avisos de risco crítico de alagamento no seu território, sempre com justificativa.</string>
+</resources>
